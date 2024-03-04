@@ -5,9 +5,9 @@ import { useState } from "react";
 import SidebarAdmin from "@/Components/SidebarAdmin";
 import { Link } from "@inertiajs/react";
 import { FiLogOut, FiTrash } from "react-icons/fi";
-import AddCategory from "@/Components/AddCategory";
+import AddCategory from "@/Components/AddCategoryAdmin";
 import { Table } from "flowbite-react";
-import EditCategory from "@/Components/EditCategory";
+import EditCategory from "./EditCategoryAdmin";
 
 const CategoryAdmin = ({ categories }) => {
     const handleDelete = async (id) => {
@@ -17,8 +17,8 @@ const CategoryAdmin = ({ categories }) => {
 
         if (isConfirmed) {
             try {
-                await axios.delete(`/petugas-category/${id}`);
-                location.reload("/petugas-category");
+                await axios.delete(`/admin-category/${id}`);
+                location.reload("/admin-category");
             } catch (error) {
                 console.error("Gagal menghapus data:", error);
             }
@@ -31,7 +31,7 @@ const CategoryAdmin = ({ categories }) => {
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, Cai Lun
+                        Selamat Datang, Admin
                     </p>
                     <Link method="POST" href={route("logout")}>
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
@@ -56,7 +56,6 @@ const CategoryAdmin = ({ categories }) => {
                                     <Table.Cell className="">{i++}</Table.Cell>
                                     <Table.Cell>{category.nama}</Table.Cell>
                                     <Table.Cell className="flex gap-1">
-                                        <EditCategory />
                                         <button
                                             onClick={() =>
                                                 handleDelete(category.id)

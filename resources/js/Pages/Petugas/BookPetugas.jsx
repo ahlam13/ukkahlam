@@ -1,6 +1,5 @@
 import React from "react";
-import BookLog from "@/Components/BookLog";
-import SearchBar from "@/Components/SearchBar";
+import axios from "axios";
 import Sidebar from "@/Components/Sidebar";
 import { Link } from "@inertiajs/react";
 import {
@@ -16,8 +15,6 @@ import { Table } from "flowbite-react";
 import { Inertia } from "@inertiajs/inertia";
 
 const BookPetugas = ({ books, startNumber }) => {
-    console.log(books);
-    
     const navigateToPage = (url) => {
         console.log(url);
         Inertia.visit(url);
@@ -25,29 +22,36 @@ const BookPetugas = ({ books, startNumber }) => {
 
     const previousPageUrl = books.prev_page_url;
     const nextPageUrl = books.next_page_url;
-    let i = 1;
+
+    const handleDelete = async (id) => {
+        const isConfirmed = window.confirm(
+            "Apakah Anda yakin ingin menghapus buku ini?"
+        );
+
+        if (isConfirmed) {
+            try {
+                await axios.delete(`/petugas-book/${id}`);
+
+                // Jika penghapusan berhasil, sesuaikan dengan logika yang Anda butuhkan
+                location.reload("/petugas-book");
+            } catch (error) {
+                console.error("Gagal menghapus data:", error);
+            }
+        }
+    };
     return (
         <div className="flex">
             <Sidebar className={"fixed h-screen"} />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, Cai Lun
+                        Selamat Datang, Petugas
                     </p>
                     <Link method="POST" href={route("logout")}>
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
                     </Link>
                 </div>
-                <div className="flex justify-between pt-10 pb-3">
-                    <form className="max-w-md h-10">
-                        <TextInput
-                            id=""
-                            type=""
-                            icon={CiSearch}
-                            placeholder="Cari Buku...."
-                            className="w-80 border border-black rounded-lg"
-                        />
-                    </form>
+                <div className="flex justify-end pt-10 pb-3">
                     <Link
                         className="bg-nav text-white w-32 h-9 rounded-md flex items-center justify-center"
                         href={route("petugas-addbook")}
@@ -85,12 +89,20 @@ const BookPetugas = ({ books, startNumber }) => {
                                     <Table.Cell>{book.judul}</Table.Cell>
                                     <Table.Cell>{book.penulis}</Table.Cell>
                                     <Table.Cell>{book.penerbit}</Table.Cell>
-                                    <Table.Cell>{book.kategori}</Table.Cell>
+                                    <Table.Cell>
+                                        {book.category.nama}
+                                    </Table.Cell>
                                     <Table.Cell className="flex pt-16 justify-around">
-                                        <Link href={route("petugas-editbook")}>
+                                        <Link
+                                            href={`petugas-book/editbook/${book.id}`}
+                                        >
                                             <FiEdit className="text-2xl" />
                                         </Link>
-                                        <button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(book.id)
+                                            }
+                                        >
                                             <FiTrash className="text-2xl text-red-400" />
                                         </button>
                                     </Table.Cell>

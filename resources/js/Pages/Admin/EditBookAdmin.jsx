@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import { Inertia } from "@inertiajs/inertia";
-// import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import Sidebar from "@/Components/Sidebar";
-import DropdownCategory from "./DropdownCategory";
+import SidebarAdmin from "@/Components/SidebarAdmin";
 import { useForm } from "@inertiajs/react";
 import axios from "axios";
 
-const AddBookPetugas = ({ categories }) => {
-    const { data, setData, post } = useForm({
-        judul: "",
+const EditBookAdmin = ({ categories, book }) => {
+    const { data, setData, put } = useForm({
+        judul: book.judul,
         cover: null,
-        penulis: "",
-        penerbit: "",
-        tahunTerbit: "",
-        category_id: "",
-        jumlahHalaman: "",
-        bahasa: "",
-        deskripsi: "",
+        penulis: book.penulis,
+        penerbit: book.penerbit,
+        tahunTerbit: book.tahunTerbit,
+        category_id: book.category_id,
+        jumlahHalaman: book.jumlahHalaman,
+        bahasa: book.bahasa,
+        deskripsi: book.deskripsi,
         content: null,
     });
+    axios.defaults.headers.common["X-CSRF-Token"] = document.querySelector(
+        'meta[name="csrf-token"]'
+    ).content;
 
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -45,26 +45,40 @@ const AddBookPetugas = ({ categories }) => {
         e.preventDefault();
 
         try {
-            await post("/petugas-book/addbook", {
-                onSuccess: () => {},
+            console.log("Data yang akan dikirim:", data);
+            await put(`/admin-book/updatebook/${book.id}`, {
+                onSuccess: () => {
+                    // Handle success, redirect or show a success message
+                },
             });
         } catch (error) {
-            console.error("Error creating book:", error.message);
+            console.error("Error updating book:", error.message);
         }
     };
 
     return (
         <div className="flex">
-            <Sidebar />
+            <SidebarAdmin />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
-                    <p className="text-2xl font-bold pt-3">Tambah Buku</p>
+                    <p className="text-2xl font-bold pt-3">Edit Buku</p>
                 </div>
                 <form
                     className="mt-7 ms-9 gap-5 flex justify-between flex-wrap w-[1024px]"
-                    onSubmit={handleSubmit}
+                    // onSubmit={handleSubmit}
                     method="POST"
+                    action={`/admin-book/updatebook/${book.id}`}
+                    encType="multipart/form-data"
                 >
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={
+                            document.querySelector('meta[name="csrf-token"]')
+                                .content
+                        }
+                    />
                     <div>
                         <InputLabel htmlFor="judul" value="Judul Buku" />
 
@@ -87,7 +101,6 @@ const AddBookPetugas = ({ categories }) => {
                             onChange={handleImageChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel htmlFor="penulis" value="Penulis" />
 
@@ -99,7 +112,6 @@ const AddBookPetugas = ({ categories }) => {
                             onChange={handleChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel htmlFor="penerbit" value="Penerbit" />
 
@@ -111,7 +123,6 @@ const AddBookPetugas = ({ categories }) => {
                             onChange={handleChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel
                             htmlFor="tahunTerbit"
@@ -209,7 +220,7 @@ const AddBookPetugas = ({ categories }) => {
                             className="bg-nav text-white w-32 h-9 rounded-md"
                             type="submit"
                         >
-                            Tambah Buku
+                            Simpan
                         </button>
                     </div>
                 </form>
@@ -218,4 +229,4 @@ const AddBookPetugas = ({ categories }) => {
     );
 };
 
-export default AddBookPetugas;
+export default EditBookAdmin;

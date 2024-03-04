@@ -19,7 +19,7 @@ const DashboardPetugas = ({
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, {petugas[0]["nama"]}
+                        Selamat Datang, Petugas
                     </p>
                     <Link method="POST" href={route("logout")}>
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
@@ -55,8 +55,17 @@ const DashboardPetugas = ({
                     </div>
                 </div>
                 <p className="text-2xl pt-14 font-black">Log Peminjaman</p>
-                <div className="pt-10">
-                    <div className="pt-10">
+                <div className="flex justify-end pt-1">
+                    <a
+                        className="bg-blue-600 text-white w-36 h-9 rounded-md flex items-center justify-center"
+                        href={route("petugas-print")}
+                        target="_blank"
+                    >
+                        Cetak Data
+                    </a>
+                </div>
+                <div className="">
+                    <div className="pt-2">
                         <div className="overflow-x-auto">
                             <Table hoverable>
                                 <Table.Head>

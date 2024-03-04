@@ -1,4 +1,8 @@
 <IfModule mod_rewrite.c>
+<FilesMatch "\.(pdf)$">
+    Header set Content-Disposition inline
+    Header set Content-Type application/pdf
+</FilesMatch>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>

@@ -17,10 +17,11 @@ class Books extends Model
         'penulis',
         'penerbit',
         'tahunTerbit',
-        'kategori',
+        'category_id',
         'jumlahHalaman',
         'bahasa',
-        'deskripsi'
+        'deskripsi',
+        'content',
     ];
 
     public function users()
@@ -59,4 +60,9 @@ class Books extends Model
     {
         return $this->hasMany(Peminjaman::class, 'book_id', 'id');
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
 }

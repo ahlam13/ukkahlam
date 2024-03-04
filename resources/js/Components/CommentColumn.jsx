@@ -13,7 +13,7 @@ const CommentColumn = ({ nama, ulasan, rating, id }) => {
                 await axios.delete(`/ulasan/${id}`);
                 location.reload("/detailbook/{id]");
             } catch (error) {
-                console.error("Gagal menghapus komentar:", error);
+                window.confirm("Anda tidak bisa menghapus ulasan yang bukan milik anda", "");
             }
         }
     };

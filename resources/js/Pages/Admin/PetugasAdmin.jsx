@@ -1,47 +1,43 @@
 import React, { useState } from "react";
 import SidebarAdmin from "@/Components/SidebarAdmin";
 import { Link } from "@inertiajs/react";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiTrash } from "react-icons/fi";
 import { TextInput, Table, Modal } from "flowbite-react";
 import { CiSearch } from "react-icons/ci";
 import ViewUSer from "@/Pages/Petugas/ViewUser";
-import BlockUserModal from "@/Components/BlockUserModal";
-import { IoEyeOutline } from "react-icons/io5";
-import UserLog from "@/Components/UserLog";
+import AddPetugasAdmin from "./AddPetugasAdmin";
 
 const PetugasAdmin = ({ users }) => {
-    console.log(users);
+    const handleDelete = async (id) => {
+        const isConfirmed = window.confirm(
+            "Apakah Anda yakin ingin menghapus Petugas ini?"
+        );
 
+        if (isConfirmed) {
+            try {
+                await axios.delete(`/admin-petugas/${id}`);
+                location.reload("/admin-petugas");
+            } catch (error) {
+                console.error("Gagal menghapus data:", error);
+            }
+        }
+    };
+    let i = 0;
     return (
         <div className="flex">
             <SidebarAdmin />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, Cai Lun
+                        Selamat Datang, Admin
                     </p>
                     <Link method="POST" href={route("logout")}>
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
                     </Link>
                 </div>
                 <div className="flex justify-end pt-20 pb-5">
-                    {/* <form className="max-w-md h-10">
-                        <TextInput
-                            id=""
-                            type=""
-                            icon={CiSearch}
-                            placeholder="Cari Petugas...."
-                            className="w-80 border border-black rounded-lg"
-                        />
-                    </form> */}
-                    <Link
-                        className="bg-blue-600 text-white w-36 h-9 rounded-md flex items-center justify-center"
-                        href={route("petugas-listblock")}
-                    >
-                        Tambah Petugas
-                    </Link>
+                    <AddPetugasAdmin />
                 </div>
-                {/* <UserLog /> */}
                 <div className="overflow-x-auto">
                     <Table hoverable>
                         <Table.Head>
@@ -56,19 +52,17 @@ const PetugasAdmin = ({ users }) => {
                                     className="bg-white dark:border-gray-700 dark:bg-gray-800"
                                     key={user.id}
                                 >
-                                    <Table.Cell className="">{"01"}</Table.Cell>
+                                    <Table.Cell className="">{++i}</Table.Cell>
                                     <Table.Cell>{user.nama}</Table.Cell>
                                     <Table.Cell>{user.username}</Table.Cell>
                                     <Table.Cell className="flex gap-3">
-                                        <ViewUSer />
-                                        {/* <Link
-                                            onClick={() => setOpenModal(true)}
-                                            className=""
-                                            href={route("petugas-viewuser")}
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(user.id)
+                                            }
                                         >
-                                            <IoEyeOutline className="text-3xl text-black hover:text-white hover:bg-zinc-400 rounded-md" />
-                                        </Link> */}
-                                        <BlockUserModal />
+                                            <FiTrash className="text-2xl text-red-400" />
+                                        </button>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

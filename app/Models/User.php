@@ -24,7 +24,6 @@ class User extends Authenticatable
         'nama',
         'username',
         'alamat',
-        'image',
         'email',
         'password',
         'role',

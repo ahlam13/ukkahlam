@@ -24,31 +24,37 @@ const BookAdmin = ({ books, startNumber }) => {
     const previousPageUrl = books.prev_page_url;
     const nextPageUrl = books.next_page_url;
     let i = 1;
+
+    const handleDelete = async (id) => {
+        const isConfirmed = window.confirm(
+            "Apakah Anda yakin ingin menghapus buku ini?"
+        );
+
+        if (isConfirmed) {
+            try {
+                await axios.delete(`/admin-book/${id}`);
+                location.reload("/admin-book");
+            } catch (error) {
+                console.error("Gagal menghapus data:", error);
+            }
+        }
+    };
     return (
         <div className="flex">
             <SidebarAdmin className={"fixed h-screen"} />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, Cai Lun
+                        Selamat Datang, Admin
                     </p>
                     <Link method="POST" href={route("logout")}>
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
                     </Link>
                 </div>
-                <div className="flex justify-between pt-10 pb-3">
-                    <form className="max-w-md h-10">
-                        <TextInput
-                            id=""
-                            type=""
-                            icon={CiSearch}
-                            placeholder="Cari Buku...."
-                            className="w-80 border border-black rounded-lg"
-                        />
-                    </form>
+                <div className="flex justify-end pt-10 pb-3">
                     <Link
                         className="bg-nav text-white w-32 h-9 rounded-md flex items-center justify-center"
-                        href={route("petugas-addbook")}
+                        href={route("admin-addbook")}
                     >
                         Tambah Buku
                     </Link>
@@ -83,12 +89,20 @@ const BookAdmin = ({ books, startNumber }) => {
                                     <Table.Cell>{book.judul}</Table.Cell>
                                     <Table.Cell>{book.penulis}</Table.Cell>
                                     <Table.Cell>{book.penerbit}</Table.Cell>
-                                    <Table.Cell>{book.kategori}</Table.Cell>
+                                    <Table.Cell>
+                                        {book.category.nama}
+                                    </Table.Cell>
                                     <Table.Cell className="flex pt-16 justify-around">
-                                        <Link href={route("petugas-editbook")}>
+                                        <Link
+                                            href={`admin-book/editbook/${book.id}`}
+                                        >
                                             <FiEdit className="text-2xl" />
                                         </Link>
-                                        <button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(book.id)
+                                            }
+                                        >
                                             <FiTrash className="text-2xl text-red-400" />
                                         </button>
                                     </Table.Cell>

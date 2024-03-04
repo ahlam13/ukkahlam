@@ -11,6 +11,7 @@ export default function DetailBook({
     books,
     reviews,
     peminjaman: peminjamanProp,
+    averageRating,
 }) {
     const [isPressed, setIsPressed] = useState(false);
     const [rating, setRating] = useState(0);
@@ -25,12 +26,7 @@ export default function DetailBook({
     const [isBookBorrowedLocal, setIsBookBorrowedLocal] = useState(
         peminjamanProp && peminjamanProp.statusPeminjaman === "Dipinjam"
     );
-
-    const handlePress = () => {
-        setIsPressed(!isPressed);
-    };
-    console.log(peminjaman);
-
+    
     const handleStarClick = (selectedRating) => {
         setRating(selectedRating);
         if (formAktif && !selectedRating) {
@@ -62,7 +58,7 @@ export default function DetailBook({
                     ).content,
                 },
                 onSuccess: () => {
-                    setIsBookBorrowedLocal(true); // Perbarui status peminjaman lokal
+                    setIsBookBorrowedLocal(true);
                 },
             }
         );
@@ -109,23 +105,30 @@ export default function DetailBook({
                         className="lg:w-[420px] lg:h-[550px] rounded-lg"
                     ></img>
                     <div className="mt-5 flex">
-                        <FiStar fill="yellow" size={30} />
-                        <FiStar fill="yellow" size={30} />
-                        <FiStar fill="yellow" size={30} />
-                        <FiStar fill="yellow" size={30} />
-                        <FiStar size={30} />
-                        <p className="text-2xl ms-5">4.0</p>
+                        {[...Array(5)].map((_, index) => (
+                            <FiStar
+                                key={index}
+                                fill={
+                                    index < averageRating ? "yellow" : "white"
+                                }
+                                size={30}
+                            />
+                        ))}
+                        <p className="text-2xl ms-5">{averageRating}</p>
                     </div>
                     <div className="mt-4 flex justify-between">
                         {isBookBorrowedLocal ? (
                             <div>
                                 {isDownloadCompleted ? (
-                                    <PrimaryButton
-                                        className="w-[420px] h-9 bg-green-500 text-white shadow-lg hover:text-white mt-3"
-                                        onClick={handleKembalikanClick}
-                                    >
-                                        Baca
-                                    </PrimaryButton>
+                                    <div className="w-[420px]">
+                                        <a
+                                            className="inline-block text-center w-full h-9 bg-green-500 text-white shadow-lg hover:text-white mt-3 px-4 py-2  border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer"
+                                            target="_blank"
+                                            href={`/read/${books.id}`}
+                                        >
+                                            Baca
+                                        </a>
+                                    </div>
                                 ) : (
                                     <PrimaryButton
                                         className="w-[420px] h-9 bg-blue-700 text-white"

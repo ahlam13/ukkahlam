@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useForm } from "@inertiajs/react";
 import { FiEdit } from "react-icons/fi";
 
-const AddCategory = ({ status }) => {
+const EditCategoryAdmin = ({ status, category }) => {
     const { data, setData, put, reset } = useForm({
         nama: "",
     });
+    console.log(category);
     const [openModal, setOpenModal] = useState(false);
     const handleSuccess = () => {
         alert("Kategori berhasil ditambahkan.");
@@ -27,7 +28,7 @@ const AddCategory = ({ status }) => {
     };
 
     return (
-        <>
+        <div>
             <button onClick={() => setOpenModal(true)} className="bg-white">
                 <FiEdit className="text-2xl text-black" />
             </button>
@@ -36,7 +37,7 @@ const AddCategory = ({ status }) => {
                 <Modal.Body>
                     <div className="space-y-6">
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                            Tambah Kategori
+                            Edit Kategori
                         </h3>
                         {status && (
                             <div className="alert alert-success">{status}</div>
@@ -74,8 +75,8 @@ const AddCategory = ({ status }) => {
                     </div>
                 </Modal.Body>
             </Modal>
-        </>
+        </div>
     );
 };
 
-export default AddCategory;
+export default EditCategoryAdmin;

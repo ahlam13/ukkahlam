@@ -16,4 +16,11 @@ class PetugasRentlogController extends Controller
             'peminjaman' => $peminjaman,
         ]);
     }
+    public function print()
+    {
+        $peminjaman = Peminjaman::with(['user', 'book'])->get();
+        return Inertia::render('Petugas/PrintPeminjaman', [
+            'peminjaman' => $peminjaman,
+        ]);
+    }
 }

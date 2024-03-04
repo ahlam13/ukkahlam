@@ -31,4 +31,10 @@ class AdminUserController extends Controller
     {
         return Inertia::render('Petugas/ListBlockPetugas');
     }
+    public function destroy($id)
+    {
+        User::find($id)->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus']);
+    }
 }

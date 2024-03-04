@@ -1,24 +1,39 @@
-import InputError from "@/Components/InputError";
+import React, { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
-import { useForm } from "@inertiajs/react";
-import TextInput from "@/Components/TextInput";
+import { Inertia } from "@inertiajs/inertia";
 import Sidebar from "@/Components/Sidebar";
-import DropdownCategory from "./DropdownCategory";
+import { useForm } from "@inertiajs/react";
+import axios from "axios";
 
-const AddBookPetugas = () => {
-    const { data, setData, post } = useForm({
-        judul: "",
+const EditBookPetugas = ({ categories, book }) => {
+    const { data, setData, put } = useForm({
+        judul: book.judul,
         cover: null,
-        penulis: "",
-        penerbit: "",
-        tahunTerbit: "",
-        kategori: "",
-        jumlahHalaman: "",
-        bahasa: "",
-        deskripsi: "",
+        penulis: book.penulis,
+        penerbit: book.penerbit,
+        tahunTerbit: book.tahunTerbit,
+        category_id: book.category_id,
+        jumlahHalaman: book.jumlahHalaman,
+        bahasa: book.bahasa,
+        deskripsi: book.deskripsi,
+        content: null,
     });
+    axios.defaults.headers.common["X-CSRF-Token"] = document.querySelector(
+        'meta[name="csrf-token"]'
+    ).content;
+
+    const [selectedCategory, setSelectedCategory] = useState("");
+
+    const handleSelect = (categoryId) => {
+        setSelectedCategory(categoryId);
+        setData("category_id", categoryId);
+        console.log(categoryId);
+    };
     const handleImageChange = (e) => {
         setData("cover", e.target.files[0]);
+    };
+    const handleContentChange = (e) => {
+        setData("content", e.target.files[0]);
     };
 
     const handleChange = (e) => {
@@ -30,26 +45,40 @@ const AddBookPetugas = () => {
         e.preventDefault();
 
         try {
-            await post("/petugas-book/addbook", {
-                onSuccess: () => {},
+            console.log("Data yang akan dikirim:", data);
+            await put(`/petugas-book/updatebook/${book.id}`, {
+                onSuccess: () => {
+                    // Handle success, redirect or show a success message
+                },
             });
         } catch (error) {
-            // Handle errors
-            console.error("Error creating book:", error.message);
+            console.error("Error updating book:", error.message);
         }
     };
+
     return (
         <div className="flex">
             <Sidebar />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
-                    <p className="text-2xl font-bold pt-5">Edit Buku</p>
+                    <p className="text-2xl font-bold pt-3">Edit Buku</p>
                 </div>
                 <form
-                    className="mt-14 ms-9 gap-5 flex justify-between flex-wrap w-[1024px]"
-                    onSubmit={handleSubmit}
+                    className="mt-7 ms-9 gap-5 flex justify-between flex-wrap w-[1024px]"
+                    // onSubmit={handleSubmit}
                     method="POST"
+                    action={`/petugas-book/updatebook/${book.id}`}
+                    encType="multipart/form-data"
                 >
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={
+                            document.querySelector('meta[name="csrf-token"]')
+                                .content
+                        }
+                    />
                     <div>
                         <InputLabel htmlFor="judul" value="Judul Buku" />
 
@@ -62,7 +91,7 @@ const AddBookPetugas = () => {
                         />
                     </div>
                     <div>
-                        <InputLabel htmlFor="cover" value="cover" />
+                        <InputLabel htmlFor="cover" value="Cover" />
 
                         <input
                             id="cover"
@@ -72,7 +101,6 @@ const AddBookPetugas = () => {
                             onChange={handleImageChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel htmlFor="penulis" value="Penulis" />
 
@@ -84,7 +112,6 @@ const AddBookPetugas = () => {
                             onChange={handleChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel htmlFor="penerbit" value="Penerbit" />
 
@@ -96,7 +123,6 @@ const AddBookPetugas = () => {
                             onChange={handleChange}
                         />
                     </div>
-
                     <div>
                         <InputLabel
                             htmlFor="tahunTerbit"
@@ -112,15 +138,31 @@ const AddBookPetugas = () => {
                         />
                     </div>
                     <div>
-                        <InputLabel htmlFor="kategori" value="kategori" />
-
-                        <input
-                            id="kategori"
-                            name="kategori"
-                            className="mt-1 w-[500px] border-gray-300 rounded-md shadow-sm"
-                            value={data.kategori}
-                            onChange={handleChange}
-                        />
+                        <div className="flex justify-center">
+                            <div className="w-[500px]">
+                                <h4 className="text-sm font-bold text-black pb-[5px]">
+                                    Kategori
+                                </h4>
+                                <select
+                                    id="category_id"
+                                    name="category_id"
+                                    className="w-[500px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text"
+                                    onChange={(e) =>
+                                        handleSelect(e.target.value)
+                                    }
+                                >
+                                    <option value={""}>Kategori</option>
+                                    {categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.nama}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <InputLabel
@@ -147,7 +189,17 @@ const AddBookPetugas = () => {
                             onChange={handleChange}
                         />
                     </div>
-                    {/* <DropdownCategory /> */}
+                    <div>
+                        <InputLabel htmlFor="content" value="Content" />
+
+                        <input
+                            id="content"
+                            name="content"
+                            className="mt-1 border-2 w-[500px] border-gray-300 rounded-md shadow-sm"
+                            type="file"
+                            onChange={handleContentChange}
+                        />
+                    </div>
                     <div>
                         <InputLabel
                             htmlFor="deskripsi"
@@ -177,4 +229,4 @@ const AddBookPetugas = () => {
     );
 };
 
-export default AddBookPetugas;
+export default EditBookPetugas;

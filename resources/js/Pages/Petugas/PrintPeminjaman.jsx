@@ -1,36 +1,31 @@
 import Sidebar from "@/Components/Sidebar";
 import { Link } from "@inertiajs/react";
+import { useEffect } from "react";
 import { FiLogOut, FiBook, FiUsers } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import RentLog from "@/Components/RentLog";
 import { Table } from "flowbite-react";
 
-const RentlogPetugas = ({ auth, peminjaman }) => {
-    console.log(peminjaman);
+const PrintPeminjaman = ({ auth, peminjaman }) => {
+    useEffect(() => {
+        const handleAfterPrint = () => {
+            window.removeEventListener("afterprint", handleAfterPrint);
+
+            if (!document.hidden) {
+                window.close();
+            }
+        };
+
+        window.addEventListener("afterprint", handleAfterPrint);
+        window.print();
+    }, []);
     let i = 0;
     return (
-        <div className="flex">
-            <Sidebar />
+        <div className="w-screen print-visible">
             <div className="p-7">
-                <div className="w-[1300px] flex justify-between">
-                    <p className="text-2xl font-semibold pt-5">
-                        Selamat Datang, Petugas
-                    </p>
-                    <Link method="POST" href={route("logout")}>
-                        <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
-                    </Link>
-                </div>
-                <p className="text-2xl pt-20 font-black">Log Peminjaman</p>
-                <div className="flex justify-end pt-5 pb-5">
-                    <a
-                        className="bg-blue-600 text-white w-36 h-9 rounded-md flex items-center justify-center"
-                        href={route("petugas-print")}
-                        target="_blank"
-                    >
-                        Cetak Data
-                    </a>
-                </div>
-                <div className="">
+                <p className="text-xl pt-5 font-medium">Log Peminjaman</p>
+
+                <div className="pt-3">
                     <div className="overflow-x-auto">
                         <Table hoverable>
                             <Table.Head>
@@ -46,7 +41,7 @@ const RentlogPetugas = ({ auth, peminjaman }) => {
                             <Table.Body className="divide-y">
                                 {peminjaman.map((pinjam) => (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        <Table.Cell className="font-medium text-gray-900 dark:text-white">
                                             {++i}
                                         </Table.Cell>
                                         <Table.Cell>
@@ -75,4 +70,4 @@ const RentlogPetugas = ({ auth, peminjaman }) => {
     );
 };
 
-export default RentlogPetugas;
+export default PrintPeminjaman;

@@ -3,22 +3,17 @@ import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 
-const ViewUSer = ({ users }) => {
+const ViewUser = ({ users }) => {
     const [openModal, setOpenModal] = useState(false);
-    console.log(users);
     const Menus = [
-        { title: "Nama", body: "ahlam" },
-        { title: "Username", body: "Ahlam13" },
-        { title: "Alamat", body: "Medan" },
-        { title: "Email", body: "violet@gmail.com" },
-        { title: "Tgl Bergabung", body: "13 Juni 2023" },
+        
     ];
 
     return (
         <>
-            <Link onClick={() => setOpenModal(true)}>
+            <button onClick={() => setOpenModal(true)}>
                 <IoEyeOutline className="text-3xl text-black hover:text-white hover:bg-zinc-400 rounded-md" />
-            </Link>
+            </button>
             <Modal show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>User Profile</Modal.Header>
                 <Modal.Body>
@@ -45,4 +40,4 @@ const ViewUSer = ({ users }) => {
     );
 };
 
-export default ViewUSer;
+export default ViewUser;

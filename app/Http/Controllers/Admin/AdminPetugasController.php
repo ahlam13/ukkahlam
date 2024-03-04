@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class AdminPetugasController extends Controller
 {
@@ -27,8 +29,42 @@ class AdminPetugasController extends Controller
             'users' => $users,
         ]);
     }
-    public function listblock()
+    public function store(Request $request)
     {
-        return Inertia::render('Petugas/ListBlockPetugas');
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'password' => 'required|string|max:255',
+        ]);
+
+        $defaultFields = [
+            'alamat' => "alamat",
+            'role' => 'petugas'
+        ];
+
+        $userData = $request->only(['nama', 'email', 'password']);
+
+        $userData = array_merge($userData, $defaultFields);
+
+        $userData['username'] = "petugas" . rand();
+
+        User::create([
+            'nama' => $userData['nama'],
+            'username' => $userData['username'],
+            'alamat' => $userData['alamat'],
+            'email' => $userData['email'],
+            'password' => Hash::make($userData['password']),
+            'role' => $userData['role'],
+        ]);
+
+        return back()->with('status', 'Petugas berhasil ditambah');
     }
+
+    public function destroy($id)
+    {
+        User::find($id)->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus']);
+    }
+
 }

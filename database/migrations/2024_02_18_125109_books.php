@@ -17,13 +17,15 @@ return new class extends Migration {
             $table->string('penulis');
             $table->string('penerbit');
             $table->string('tahunTerbit');
-            $table->string('kategori');
+            $table->unsignedBigInteger('category_id');
             $table->string('jumlahHalaman');
             $table->string('bahasa');
             $table->longText('deskripsi');
+            $table->longText('content');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
 
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
         });
     }
 

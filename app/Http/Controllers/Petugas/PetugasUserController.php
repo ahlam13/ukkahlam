@@ -31,4 +31,10 @@ class PetugasUserController extends Controller
     {
         return Inertia::render('Petugas/ListBlockPetugas');
     }
+
+    public function getUser($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
 }

@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import { Inertia } from "@inertiajs/inertia";
-// import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import Sidebar from "@/Components/Sidebar";
-import DropdownCategory from "./DropdownCategory";
 import { useForm } from "@inertiajs/react";
 import axios from "axios";
 
-const AddBookPetugas = ({ categories }) => {
+const AddBookAdmin = ({ categories }) => {
     const { data, setData, post } = useForm({
         judul: "",
         cover: null,
@@ -45,7 +43,7 @@ const AddBookPetugas = ({ categories }) => {
         e.preventDefault();
 
         try {
-            await post("/petugas-book/addbook", {
+            await post("/admin-book/addbook", {
                 onSuccess: () => {},
             });
         } catch (error) {
@@ -218,4 +216,4 @@ const AddBookPetugas = ({ categories }) => {
     );
 };
 
-export default AddBookPetugas;
+export default AddBookAdmin;

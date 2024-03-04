@@ -1,10 +1,9 @@
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
-import { FiEdit } from "react-icons/fi";
 
 const AddCategory = ({ status }) => {
-    const { data, setData, put, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
     });
     const [openModal, setOpenModal] = useState(false);
@@ -18,7 +17,7 @@ const AddCategory = ({ status }) => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("addcategory"), {
+        post(route("addcategoryAdmin"), {
             onSuccess: () => {
                 onCloseModal();
                 reset();
@@ -28,9 +27,9 @@ const AddCategory = ({ status }) => {
 
     return (
         <>
-            <button onClick={() => setOpenModal(true)} className="bg-white">
-                <FiEdit className="text-2xl text-black" />
-            </button>
+            <Button onClick={() => setOpenModal(true)} className="bg-nav">
+                Tambah Kategori
+            </Button>
             <Modal show={openModal} size="md" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>

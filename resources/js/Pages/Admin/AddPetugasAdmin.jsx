@@ -1,15 +1,14 @@
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
-import { FiEdit } from "react-icons/fi";
 
-const AddCategory = ({ status }) => {
-    const { data, setData, put, reset } = useForm({
+const AddPetugasAdmin = ({ status }) => {
+    const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
     });
     const [openModal, setOpenModal] = useState(false);
     const handleSuccess = () => {
-        alert("Kategori berhasil ditambahkan.");
+        alert("Petugas berhasil ditambahkan.");
     };
 
     function onCloseModal() {
@@ -18,7 +17,7 @@ const AddCategory = ({ status }) => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("addcategory"), {
+        post(route("addpetugas"), {
             onSuccess: () => {
                 onCloseModal();
                 reset();
@@ -28,25 +27,25 @@ const AddCategory = ({ status }) => {
 
     return (
         <>
-            <button onClick={() => setOpenModal(true)} className="bg-white">
-                <FiEdit className="text-2xl text-black" />
-            </button>
+            <Button onClick={() => setOpenModal(true)} className="bg-nav">
+                Tambah Petugas
+            </Button>
             <Modal show={openModal} size="md" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>
                     <div className="space-y-6">
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                            Tambah Kategori
+                            Tambah Petugas
                         </h3>
                         {status && (
                             <div className="alert alert-success">{status}</div>
                         )}
                         <form onSubmit={submit}>
                             <div>
-                                <div className="mb-2 block">
+                                <div className="mb-1 block">
                                     <Label
                                         htmlFor="nama"
-                                        value="Nama Kategori"
+                                        value="Nama Petugas"
                                     />
                                 </div>
                                 <TextInput
@@ -57,7 +56,40 @@ const AddCategory = ({ status }) => {
                                         setData("nama", e.target.value)
                                     }
                                     type="text"
-                                    required
+                                />
+                            </div>
+                            <div>
+                                <div className="mb-1 block">
+                                    <Label
+                                        htmlFor="email"
+                                        value="Email Petugas"
+                                    />
+                                </div>
+                                <TextInput
+                                    id="email"
+                                    name="email"
+                                    value={data.email}
+                                    onChange={(e) =>
+                                        setData("email", e.target.value)
+                                    }
+                                    type="text"
+                                />
+                            </div>
+                            <div>
+                                <div className="mb-1 block">
+                                    <Label
+                                        htmlFor="password"
+                                        value="Password Petugas"
+                                    />
+                                </div>
+                                <TextInput
+                                    id="password"
+                                    name="password"
+                                    value={data.password}
+                                    onChange={(e) =>
+                                        setData("password", e.target.value)
+                                    }
+                                    type="password"
                                 />
                             </div>
 
@@ -78,4 +110,4 @@ const AddCategory = ({ status }) => {
     );
 };
 
-export default AddCategory;
+export default AddPetugasAdmin;

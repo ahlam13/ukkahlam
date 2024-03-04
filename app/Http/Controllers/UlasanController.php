@@ -31,7 +31,13 @@ class UlasanController extends Controller
     }
     public function destroy($id)
     {
-        Ulasan::find($id)->delete();
+        $ulasan = Ulasan::findOrFail($id);
+
+        if (auth()->id() !== $ulasan->user_id) {
+            return response()->json(['error' => 'Anda tidak memiliki izin untuk menghapus ulasan ini.'], 403);
+        }
+
+        $ulasan->delete();
 
         return response()->json(['message' => 'Data berhasil dihapus']);
     }

@@ -48,4 +48,13 @@ class AdminCategoryController extends Controller
 
         return response()->json(['message' => 'Data berhasil dihapus']);
     }
+
+    public function editCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        return Inertia::render('Admin/EditCategoryAdmin', [
+            'category' => $category,
+
+        ]);
+    }
 }
