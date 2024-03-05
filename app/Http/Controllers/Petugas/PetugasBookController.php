@@ -16,13 +16,13 @@ class PetugasBookController extends Controller
 {
     public function index()
     {
-        $books = Books::with('category')->paginate(3);
-        $pageNumber = $books->currentPage();
-        $itemsPerPage = $books->perPage();
-        $startNumber = ($pageNumber - 1) * $itemsPerPage + 1;
+        $books = Books::with('category')->get();
+        // $pageNumber = $books->currentPage();
+        // $itemsPerPage = $books->perPage();
+        // $startNumber = ($pageNumber - 1) * $itemsPerPage + 1;
         return Inertia::render('Petugas/BookPetugas', [
             'books' => $books,
-            'startNumber' => $startNumber,
+            // 'startNumber' => $startNumber,
         ]);
     }
     public function addBook()

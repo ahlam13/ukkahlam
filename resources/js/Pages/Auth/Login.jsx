@@ -9,6 +9,7 @@ import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import Register from "./Register";
 import { saveTokenToLocalStorage } from "@/services/AuthService";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 
 export default function Login({ status, canResetPassword }) {
     const [email, setEmail] = useState("");
@@ -44,6 +45,7 @@ export default function Login({ status, canResetPassword }) {
     return (
         <LayoutLogin>
             <Head title="Log in" />
+           
 
             {status && (
                 <div className="mb-4 font-medium text-sm text-green-600">

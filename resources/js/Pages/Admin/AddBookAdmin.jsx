@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import { Inertia } from "@inertiajs/inertia";
 import TextInput from "@/Components/TextInput";
-import Sidebar from "@/Components/Sidebar";
+import SidebarAdmin from "@/Components/SidebarAdmin";
 import { useForm } from "@inertiajs/react";
 import axios from "axios";
 
@@ -53,7 +53,7 @@ const AddBookAdmin = ({ categories }) => {
 
     return (
         <div className="flex">
-            <Sidebar />
+            <SidebarAdmin />
             <div className="p-7">
                 <div className="w-[1300px] flex justify-between">
                     <p className="text-2xl font-bold pt-3">Tambah Buku</p>

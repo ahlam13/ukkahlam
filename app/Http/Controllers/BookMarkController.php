@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookmarks;
 use App\Models\Books;
+use App\Models\Category;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,14 +40,14 @@ class BookMarkController extends Controller
 
         if ($existingBookmark) {
             $existingBookmark->delete();
-            return back();
+            return redirect()->back();
         } else {
             $bookmark = new Bookmarks();
             $bookmark->book_id = $book->id;
             $bookmark->user_id = $user->id;
             $bookmark->save();
 
-            return back();
+            return redirect()->back();
         }
     }
 
@@ -63,5 +64,16 @@ class BookMarkController extends Controller
         $isBookmarked = $buku->getIsBookmarkedAttribute();
 
         return response()->json(['isBookmarked' => $isBookmarked]);
+    }
+
+    public function category($id)
+    {
+        $category = Category::find($id);
+        $books = Books::where('category_id', $id)->get();
+        
+        return Inertia::render('CategoryBook', [
+            'books' => $books,
+            'category'=> $category,
+        ]);
     }
 }

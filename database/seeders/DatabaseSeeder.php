@@ -32,5 +32,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'petugas@gmail.com',
             'password' => Hash::make('petugas123'),
         ]);
+
+        DB::table('users')->insert([
+            'nama' => 'admin',
+            'username' => 'admin',
+            'role' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('admin123'),
+        ]);
     }
 }

@@ -31,12 +31,9 @@ export default function UpdateProfileInformation({
         <section className={className}>
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
+                    Informasi Profile
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
             </header>
 
             <form
@@ -59,21 +56,6 @@ export default function UpdateProfileInformation({
 
                     <InputError className="mt-2" message={errors.nama} />
                 </div>
-
-                {/* <div>
-                    <InputLabel htmlFor="image" value="Image" />
-
-                    <TextInput
-                        id="image"
-                        className="mt-1 block w-full"
-                        type="file"
-                        value={data.image}
-                        onChange={(e) => setData("image", e.target.files[0])}
-                        autoComplete="image"
-                    />
-
-                    <InputError className="mt-2" message={errors.image} />
-                </div> */}
 
                 <div>
                     <InputLabel htmlFor="username" value="Username" />
@@ -145,7 +127,7 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing} type="submit">
+                    <PrimaryButton disabled={processing} type="submit" className="bg-nav text-white">
                         Simpan
                     </PrimaryButton>
 

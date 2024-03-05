@@ -47,6 +47,7 @@ export default function DetailBook({
     const handleFormFocus = () => {
         setFormAktif(true);
     };
+
     const handlePinjamClick = () => {
         Inertia.post(
             route("peminjaman.store", books.id),
@@ -59,6 +60,7 @@ export default function DetailBook({
                 },
                 onSuccess: () => {
                     setIsBookBorrowedLocal(true);
+                   
                 },
             }
         );

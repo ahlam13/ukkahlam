@@ -14,7 +14,7 @@ import { CiSearch } from "react-icons/ci";
 import { Table } from "flowbite-react";
 import { Inertia } from "@inertiajs/inertia";
 
-const BookPetugas = ({ books, startNumber }) => {
+const BookPetugas = ({ books, }) => {
     const navigateToPage = (url) => {
         console.log(url);
         Inertia.visit(url);
@@ -39,6 +39,7 @@ const BookPetugas = ({ books, startNumber }) => {
             }
         }
     };
+    let i = 0;
     return (
         <div className="flex">
             <Sidebar className={"fixed h-screen"} />
@@ -72,13 +73,13 @@ const BookPetugas = ({ books, startNumber }) => {
                             <Table.HeadCell>Aksi</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {books.data.map((book, index) => (
+                            {books.map((book, index) => (
                                 <Table.Row
                                     className="bg-white dark:border-gray-700 dark:bg-gray-800"
                                     key={book.id}
                                 >
                                     <Table.Cell className="">
-                                        {startNumber + index}
+                                        {++i}
                                     </Table.Cell>
                                     <Table.Cell>
                                         <img
@@ -109,7 +110,7 @@ const BookPetugas = ({ books, startNumber }) => {
                                 </Table.Row>
                             ))}
                         </Table.Body>
-                        <div className="mt-6 flex justify-between items-center">
+                        {/* <div className="mt-6 flex justify-between items-center">
                             {previousPageUrl && (
                                 <Link
                                     className="text-blue-500"
@@ -129,7 +130,7 @@ const BookPetugas = ({ books, startNumber }) => {
                                     <FiChevronsRight className="text-3xl" />
                                 </button>
                             )}
-                        </div>
+                        </div> */}
                     </Table>
                 </div>
             </div>

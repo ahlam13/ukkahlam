@@ -30,10 +30,10 @@ class PeminjamanCotroller extends Controller
 
         $peminjaman = Peminjaman::create($dataPeminjaman);
 
-        return redirect()->route('detailbook', ['id' => $book->id])
-            ->with('success', 'Peminjaman berhasil disimpan.')
-            ->with('peminjaman', $peminjaman);
-
+        return Inertia::location(route('detailbook', [
+            'id' => $book->id,
+            'peminjaman', $peminjaman,
+        ]));
     }
 
     public function getBookData($id)

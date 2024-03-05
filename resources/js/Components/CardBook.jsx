@@ -20,6 +20,7 @@ const CardBook = ({ imgSrc, title, writer, id, book, fill }) => {
     }, [book.id]);
 
     const handlePress = () => {
+        location.reload();
         Inertia.post(`/bookmarks/${id}`, null, {
             onSuccess: () => {
                 reset();

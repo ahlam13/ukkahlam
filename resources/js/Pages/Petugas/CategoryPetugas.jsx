@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 // import CategoryLog from "@/Components/CategoryLog";
@@ -37,7 +37,7 @@ const CategoryPetugas = ({ categories }) => {
                         <FiLogOut className="w-12 h-12 pt-5 text-red-700" />
                     </Link>
                 </div>
-                <div className="flex justify-end pt-20 pb-5">
+                <div className="flex justify-end pt-9 pb-2">
                     <AddCategory />
                 </div>
                 <div className="overflow-x-auto">

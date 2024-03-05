@@ -48,15 +48,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin-book/addbook', [AdminBookController::class, 'store'])->name('admin-book.store');
     Route::get('/admin-book/addbook', [AdminBookController::class, 'addBook'])->name('admin-addbook');
     Route::get('/admin-book/editbook/{id}', [AdminBookController::class, 'editBook'])->name('admin-editbook');
-    Route::put('/admin-book/updatebook/{id}', [AdminBookController::class, 'update'])->name('updatebook');
+    Route::put('/admin-book/updatebook/{id}', [AdminBookController::class, 'update'])->name('updatebookAdmin');
     Route::delete('/admin-book/{id}', [AdminBookController::class, 'destroy']);
     Route::get('/admin-category', [AdminCategoryController::class, 'index'])->name('admin-category');
     Route::get('/admin-category/editcategory', [AdminCategoryController::class, 'editCategory'])->name('admin-editcategory');
-    Route::post('admin-category/addcategory', [AdminCategoryController::class, 'store'])
-        ->name('addcategoryAdmin');
+    Route::post('admin-category/addcategory', [AdminCategoryController::class, 'store'])->name('addcategoryAdmin');
     Route::delete('/admin-category/{id}', [AdminCategoryController::class, 'destroy']);
     Route::get('/admin-user', [AdminUserController::class, 'index'])->name('admin-user');
-    Route::get('/petugas-user/{id}', [PetugasUserController::class, 'view'])->name('petugas-viewuser');
+    Route::get('/admin-user/{id}', [AdminUserController::class, 'view'])->name('admin-viewuser');
     Route::delete('/admin-user/{id}', [AdminUserController::class, 'destroy']);
     Route::get('/admin-petugas', [AdminPetugasController::class, 'index'])->name('admin-petugas');
     Route::delete('/admin-petugas/{id}', [AdminPetugasController::class, 'destroy']);
@@ -102,7 +101,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/bookmarks/{id}', [BookMarkController::class, 'bookmark'])->name('bookmark');
+    Route::post('/bookmarks/{id}', [BookMarkController::class, 'bookmark'])->name('bookmarks');
 });
 
 Route::get('/check-bookmark/{book_id}', [BookmarkController::class, 'checkBookmark']);
@@ -110,6 +109,7 @@ Route::get('/check-peminjamanbookmark/{book_id}', [BookmarkController::class, 'c
 
 Route::middleware('auth')->group(function () {
     Route::get('/bookmark', [BookMarkController::class, 'show'])->name('bookmark');
+    Route::get('/categorybook/{id}', [BookMarkController::class, 'category'])->name('categorybook');
     Route::post('/ulasan/{book}', [UlasanController::class, 'store'])->name('ulasan.store');
     Route::delete('/ulasan/{id}', [UlasanController::class, 'destroy'])->name('ulasan.delete');
     Route::post('/peminjaman/{book}', [PeminjamanCotroller::class, 'store'])->name('peminjaman.store');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use App\Models\Ulasan;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UlasanController extends Controller
 {
@@ -27,7 +28,9 @@ class UlasanController extends Controller
 
         $ulasan->save();
 
-        return redirect()->back()->with('success', 'Ulasan berhasil ditambahkan');
+        return Inertia::location(route('detailbook', [
+            'id' => $book->id,
+        ]));
     }
     public function destroy($id)
     {
