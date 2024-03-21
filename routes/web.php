@@ -1,20 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminBookController;
-use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminPetugasController;
-use App\Http\Controllers\Admin\AdminRentlogController;
-use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\PeminjamanCotroller;
-use App\Http\Controllers\UlasanController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookMarkController;
+use App\Http\Controllers\PeminjamanCotroller;
 use App\Http\Controllers\DetailBookController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Petugas\PetugasController;
+use App\Http\Controllers\Admin\AdminPetugasController;
+use App\Http\Controllers\Admin\AdminRentlogController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Petugas\PetugasBookController;
 use App\Http\Controllers\Petugas\PetugasUserController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -33,7 +33,7 @@ use App\Http\Controllers\Petugas\PetugasCategoryController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
